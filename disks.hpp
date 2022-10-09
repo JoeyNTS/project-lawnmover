@@ -114,11 +114,11 @@ public:
   bool is_sorted() const {
     for (size_t i = 0; i < total_count(); i++){
       if (i < total_count() / 2){
-          if (_colors[i] == DISK_DARK) {
+          if (_colors[i] == DISK_DARK) { // check left side --> should be light
             return false;
           }
       } else if (i >= total_count() / 2) {
-          if (_colors[i] == DISK_LIGHT) { 
+          if (_colors[i] == DISK_LIGHT) { // check right side --> should be dark
             return false;
           }
       }
@@ -156,16 +156,13 @@ public:
 // Algorithm that sorts disks using the alternate algorithm.
 sorted_disks sort_alternate(const disk_state& before) {
   int numOfSwap = 0; // record # of step swap
-  int n = before.total_count() / 2;
-  disk_state after = disk_state(before);
+  int n = before.total_count() / 2; // number of DARK_DISK
+  disk_state after = disk_state(before); // object after sorting
 
-    for (int i = 1; i < n; i++)
-    {
-      for (int j = i; j < 2*n - 1; j += 2)
-      {
+    for (int i = 1; i < n; i++) {
+      for (int j = i; j < 2*n - 1; j += 2) { // iterates over each pair
 
-        if (after.get(j) == DISK_DARK && after.get(j + 1) == DISK_LIGHT)
-        {
+        if (after.get(j) == DISK_DARK && after.get(j + 1) == DISK_LIGHT) { // cheks if swap is neccesary
           after.swap(j);
           numOfSwap++;
         }
@@ -179,20 +176,19 @@ sorted_disks sort_alternate(const disk_state& before) {
 // Algorithm that sorts disks using the lawnmower algorithm.
 sorted_disks sort_lawnmower(const disk_state& before) {
   int numOfSwap = 0; // record # of step swap
-  int n = before.total_count() / 2;
-  disk_state after = disk_state(before);
+  int n = before.total_count() / 2; // number of DARK_DISK
+  disk_state after = disk_state(before); // object after sorting
 
-    for (int i = 0; i < (n + 1) / 2; i++)
-    {
-      for (int j = i; j < 2*n - 1; j++)
-        if (after.get(j) == DISK_DARK && after.get(j + 1) == DISK_LIGHT)
-        {
+    for (int i = 0; i < (n + 1) / 2; i++) {
+      for (int j = i; j < 2*n - 1; j++) { // starts with leftmost disk, compares left to right
+        if (after.get(j) == DISK_DARK && after.get(j + 1) == DISK_LIGHT) { // cheks if swap is neccesary
           after.swap(j);
           numOfSwap++;
         }
+      }
 
-      for (int z = 2*n-1; i < z; z--) {
-        if (after.get(z) == DISK_LIGHT && after.get(z-1) == DISK_DARK) {
+      for (int z = 2*n-1; i < z; z--) { // starts with rightmost disk, compares right to left
+        if (after.get(z) == DISK_LIGHT && after.get(z-1) == DISK_DARK) { // cheks if swap is neccesary
           after.swap(z -1);
           numOfSwap++;
         }
