@@ -114,11 +114,11 @@ public:
   bool is_sorted() const {
     for (size_t i = 0; i < total_count(); i++){
       if (i < total_count() / 2){
-          if (_colors[i] == DISK_DARK) { // check left side --> should be light
+          if (_colors[i] == DISK_DARK) { // check left side --> shouldn't be dark
             return false;
           }
       } else if (i >= total_count() / 2) {
-          if (_colors[i] == DISK_LIGHT) { // check right side --> should be dark
+          if (_colors[i] == DISK_LIGHT) { // check right side --> shouldn't be light
             return false;
           }
       }
